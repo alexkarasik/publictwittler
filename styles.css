@@ -1,0 +1,29 @@
+#userTweets {
+ 	text-align: center;
+ 	margin-left: 100px;
+ 	margin-right: 100px;
+ }
+
+ #allTweets {
+ 	text-align: center;
+ 	margin-left: 100px;
+ 	margin-right: 100px;
+ }
+
+ .heading {
+     padding-top: 20px;
+     padding-bottom: 20px;
+     margin-bottom: 10px;
+     border-radius: 20px;
+     background-color: #33aaff;
+ }
+
+ .top {
+ 	padding-top: 20px;
+ 	padding-bottom: 5px;
+ 	padding-left:20px;
+ 	padding-right:20px;
+ 	border-radius: 30px;
+ 	color: white;
+ 	font-style: italic;
+ }

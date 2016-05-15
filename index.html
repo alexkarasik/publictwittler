@@ -3,24 +3,110 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css"
   </head>
   <body>
+
+  <div class="top">
+    <div class="heading">
+      <h1>Twittler</h1>
+       <p>Click once to get a timeline and twice to get the feed for a user!</p>
+      </div>
+    </div>
+
+    <div>
+      <div id="allTweets"></div>
+    </div>
+
+    <div>
+        <div id="userTweets"></div>
+    </div>
     <script>
 
-      $(document).ready(function(){
-        var $body = $('body');
-        $body.html('');
+    $(document).ready(function(){     //inserting the jquery in the script
+      var $body = $('body');    //creating a jquery alias for body so we can apply jquery to it
+      var $allTweets = $('#allTweets'); //same for all tweets
+        var $userTweets = $('#userTweets'); // same for user tweets
 
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
-          index -= 1;
-        }
+        function originalTweets() { // now, we create a function for all of the original tweets
+          for (var i = 0; i < 10; i++) { // we want to have 10 of them
+            var tweet = streams.home[i]; // the tweets will be the index values of streams.home
+            var $tweet = $('<button type="button" class="btn btn-primary-outline btn-block"></button>'); //we're going to make a tweet button
+            $tweet.addClass(tweet.user); //we want to add a class name of the tweet user
+              $tweet.text('@' + tweet.user + ': ' + tweet.message + ' ' + tweet.created_at); // this is what the text will say
+            $tweet.prependTo($allTweets); //prependTo will insert tweet into allTweets
+            }
+          };
 
-      });
+        var length = streams.home.length; //we want a variable for the length of the users
+
+        function newTweets() { //let's create a function for the new tweets which be almost identitcal to the original tweets function... we'll display them later on
+          for (var i = length; i < streams.home.length; i++) {
+            var tweet = streams.home[i]; // each user will have their own tweet
+            var $tweet = $('<button type="button" class="btn btn-primary-outline btn-block"></button>');//making our new tweets button...
+            $tweet.addClass(tweet.user);
+            $tweet.text('@' + tweet.user + ': ' + tweet.message + ' ' + tweet.created_at);
+            $tweet.prependTo($allTweets);
+          }
+        };
+
+        function appendUserTweets(username) { //we're going to create a new function which will append the users' tweets
+          for (var i = 0; i < streams.users[username].length; i++) { //for every user...
+            var twit = streams.users[username]; //every user gets a reference to the twit var
+            var tweet = twit[i]; //every iteration of twit(so every user), gets a tweet
+            var $tweet = $('<button type="button" class="btn btn-primary-outline btn-block"></button>'); // we create a jquery button
+            $tweet.addClass("onlyUsers"); //add an onlu Users class
+            $tweet.text('@' + tweet.user + ': ' + tweet.message + ' ' + tweet.created_at); // add a little extra to the message and info to make it look more like a real tweet
+            $tweet.prependTo($userTweets); //add all this to the beginning of the userTweets
+          }
+        };
+
+        originalTweets(); // let's call the original tweets...
+
+        $(document).on('click', '.douglascalhoun',function() { //when we click on douglas calhoun (or any of the following three users)
+          $('#allTweets').hide('fast'); //we're going to hide all the tweets at a fast speed
+          appendUserTweets('douglascalhoun'); //we add douglascalhoun to the user tweets
+        });
+
+        $(document).on('click', '.mracus',function() {
+          $('#allTweets').hide('fast');
+          appendUserTweets('mracus');
+        });
+
+        $(document).on('click', '.sharksforcheap',function() {
+          $('#allTweets').hide('fast');
+          appendUserTweets('sharksforcheap');
+        });
+
+        $(document).on('click', '.shawndrost',function() {
+          $('#allTweets').hide('fast');
+          appendUserTweets('shawndrost');
+        });
+
+        $(document).on('click', '.onlyUsers', function() {
+          $('.onlyUsers').hide('fast');
+          $('#allTweets').show('fast');
+        });
+
+    var interval = setInterval(startNewTweets, 1000); //setInterval works a lot like setTimout, except it will alert something new everytime with the timeframe we give it
+
+      function startNewTweets() {
+         newTweets();
+         length = streams.home.length;
+         console.log(length);
+           };
+
+
+    };
+
+
+
+    });
+
+
+
+
+
 
     </script>
   </body>
